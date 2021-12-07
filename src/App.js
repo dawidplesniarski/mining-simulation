@@ -32,7 +32,7 @@ const OverviewFlow = () => {
                     </>
                 ),
             },
-            position: {x: 400, y: 200},
+            position: {x: 400, y: 400},
             actualValue: 0,
             power: 800,
             value: 500,
@@ -79,8 +79,8 @@ const OverviewFlow = () => {
         const newId = Number.parseInt(elements.filter(e => !e.target)[elements.filter(e => !e.target).length - 1].id, 10) + 1;
         // const xPosition = elements.filter(e => !e.target)[elements.filter(e => !e.target).length - 1].position.x + 70;
         // const yPosition = elements.filter(e => !e.target)[elements.filter(e => !e.target).length - 1].position.y + 70;
-        const xPosition = getRandomInt(-500, 500);
-        const yPosition = getRandomInt(-500, 500);
+        const xPosition = getRandomInt(-200, 1000);
+        const yPosition = getRandomInt(-200, 1000);
         const randomValue = getRandomInt(5, 20) * 10;
         const randomPower = getRandomInt(1, 6) * 100;
         const miner = {
