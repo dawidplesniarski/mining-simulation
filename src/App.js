@@ -1,7 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import GraphScene from "./components/molecules/GraphScene";
 import Button from "./components/atoms/Button/Button";
+import playIcon from './assets/play-button.png';
+import stopIcon from './assets/stop-button.png';
 
 const MainView = styled.div`
   width: 100vw;
@@ -15,10 +17,17 @@ const ButtonWrapper = styled.div`
   margin: 30px;
 `;
 
+const PlayButton = styled.button`
+  border: 0;
+  background-color: #FFF;
+`;
+
 const networkValue = 2000;
 const networkCost = 100;
 
 const OverviewFlow = () => {
+    const colors = ['#fdb47e','#bdff7e','#7efdf2','#7ec2fd','#fdb47e','#F5EEF8','#F5B7B1','#D7BDE2','#A9CCE3','#FCF3CF','#FCF3CF','#7DCEA0'];
+    const [isRunning, setIsRunning] = useState(false);
     const [elements, setElements] = useState([
         {
             id: '1',
@@ -77,8 +86,6 @@ const OverviewFlow = () => {
      */
     const addMiner = () => {
         const newId = Number.parseInt(elements.filter(e => !e.target)[elements.filter(e => !e.target).length - 1].id, 10) + 1;
-        // const xPosition = elements.filter(e => !e.target)[elements.filter(e => !e.target).length - 1].position.x + 70;
-        // const yPosition = elements.filter(e => !e.target)[elements.filter(e => !e.target).length - 1].position.y + 70;
         const xPosition = getRandomInt(-200, 1000);
         const yPosition = getRandomInt(-200, 1000);
         const randomValue = getRandomInt(5, 20) * 10;
@@ -168,7 +175,7 @@ const OverviewFlow = () => {
             }
             if (el.actualValue >= networkValue) {
                 ifcost = true;
-                el.style = {...el.style, background: 'red'};
+                el.style = {...el.style, background: colors[getRandomInt(0, 11)]};
                 el.value = el.value + 200
                 el.actualValue = 0;
                 el.data = {
@@ -212,21 +219,10 @@ const OverviewFlow = () => {
 
     return (
         <MainView>
-            <ButtonWrapper>
-                <Button onClick={() => addMiner()}>
-                    Dodaj
-                </Button>
-            </ButtonWrapper>
-            <ButtonWrapper>
-                <Button onClick={() => deleteMiner(3)}>
-                    Usuń
-                </Button>
-            </ButtonWrapper>
-            <ButtonWrapper>
-                <Button onClick={() => updateMiners()}>
-                    Aktualizuj
-                </Button>
-            </ButtonWrapper>
+            <PlayButton onClick={() => setIsRunning(!isRunning)}>
+                <img src={isRunning ? stopIcon : playIcon} alt={'icon'}/>
+            </PlayButton>
+            <input style={{ opacity: 0 }} type={'text'} onKeyDown={e => e.key === 'Enter' ? addMiner() : updateMiners()}/>
             <GraphScene elements={elements} setElements={setElements}/>
         </MainView>
     );
