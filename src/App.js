@@ -84,15 +84,41 @@ const OverviewFlow = () => {
         10
       ) + 1;
     var interval = setInterval(() => {
-      if (time <= 5) {
+      if (time <= 8) {
         const [miner, edge1, edge2, edge3] = addMiner(newId);
         setElements((elements) => [...elements, miner, edge1, edge2, edge3]);
         time++;
         newId++;
-      } else {
+      }
+      if (time <= 12 && time >= 8) {
+        if (time % 3 == 0) {
+          const [miner, edge1, edge2, edge3] = addMiner(newId);
+          setElements((elements) => [...elements, miner, edge1, edge2, edge3]);
+          time++;
+          newId++;
+        }
+        updateMiners();
+      }
+      if(time >=12) {
+        console.log('stop')
         clearInterval(interval);
+        time = 8;
       }
     }, delay);
+    // var interval2 = setInterval(() => {
+    //   if(time <=10 && time >= 5){
+    //     if((time%3)===0){
+    //       const [miner, edge1, edge2, edge3] = addMiner(newId);
+    //       setElements((elements) => [...elements, miner, edge1, edge2, edge3]);
+    //       time++;
+    //       newId++;
+    //     }
+    //     updateMiners()
+    //   }else{
+    //     clearInterval(interval2);
+    //     time = 5;
+    //   }
+    // },1000)
   };
   const addMiner = (newId) => {
     // const newId =
@@ -107,7 +133,7 @@ const OverviewFlow = () => {
     // const yPosition = elements.filter(e => !e.target)[elements.filter(e => !e.target).length - 1].position.y + 70;
     const xPosition = getRandomInt(-200, 1000);
     const yPosition = getRandomInt(-200, 1000);
-    const randomValue = getRandomInt(5, 20) * 10;
+    const randomValue = getRandomInt(5, 30) * 10;
     const randomPower = getRandomInt(1, 6) * 100;
     const miner = {
       id: newId.toString(),
