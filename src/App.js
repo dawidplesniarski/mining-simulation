@@ -75,25 +75,25 @@ const OverviewFlow = () => {
    * górnikiem.
    * Tablica elements przechowuje zarówno górników jak i węzły pomiędzy nimi stąd też konieczność filtrowania elementów
    */
-   const simulation = () =>{
+  const simulation = () => {
     var newId =
-    Number.parseInt(
-      elements.filter((e) => !e.target)[
-        elements.filter((e) => !e.target).length - 1
-      ].id,
-      10
-    ) + 1;
-    var interval = setInterval(()=> {
+      Number.parseInt(
+        elements.filter((e) => !e.target)[
+          elements.filter((e) => !e.target).length - 1
+        ].id,
+        10
+      ) + 1;
+    var interval = setInterval(() => {
       if (time <= 5) {
-        const [miner,edge1,edge2,edge3] = addMiner(newId);
-        setElements(elements=>[...elements,miner,edge1,edge2,edge3])
+        const [miner, edge1, edge2, edge3] = addMiner(newId);
+        setElements((elements) => [...elements, miner, edge1, edge2, edge3]);
         time++;
         newId++;
       } else {
         clearInterval(interval);
       }
     }, delay);
-  }
+  };
   const addMiner = (newId) => {
     // const newId =
     //   Number.parseInt(
@@ -150,7 +150,7 @@ const OverviewFlow = () => {
       target: `${newId + 3}`,
       label: `e${newId}-${newId + 3}`,
     };
-    return [miner,edge1,edge2,edge3];
+    return [miner, edge1, edge2, edge3];
   };
 
   /*
@@ -168,8 +168,12 @@ const OverviewFlow = () => {
     setElements((oldArr) => [...oldArr, edge]);
   };
   const updateMiners = () => {
-    const lastNode = elements.slice(-2, -1);
-    const nodeQuantity = lastNode[0].id;
+    const nodeQuantity = Number.parseInt(
+      elements.filter((e) => !e.target)[
+        elements.filter((e) => !e.target).length - 1
+      ].id,
+      10
+    );
     let cost = 0;
     let ifcost = false;
     setElements((els) =>
@@ -240,9 +244,6 @@ const OverviewFlow = () => {
 
   return (
     <MainView>
-      <ButtonWrapper>
-        <Button onClick={() => addMiner()}>Dodaj</Button>
-      </ButtonWrapper>
       <ButtonWrapper>
         <Button onClick={() => deleteMiner(3)}>Usuń</Button>
       </ButtonWrapper>
