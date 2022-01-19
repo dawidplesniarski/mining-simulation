@@ -21,14 +21,12 @@ const GraphScene = props => {
     return (
         <ReactFlowProvider>
             <ReactFlow
-                key={'miners'}
-                id={'miners'}
                 elements={props.elements}
                 onElementsRemove={onElementsRemove}
                 onConnect={onConnect}
                 onLoad={onLoad}
-                snapToGrid={true}
-                snapGrid={[15, 15]}
+                snapToGrid={false}
+                defaultZoom={-10}
             >
                 <MiniMap
                     nodeStrokeColor={(n) => {
@@ -46,8 +44,7 @@ const GraphScene = props => {
                     }}
                     nodeBorderRadius={2}
                 />
-                <Controls />
-                <Background color="#aaa" gap={16} />
+                <Background color="#aaa" gap={20} />
             </ReactFlow>
         </ReactFlowProvider>
     );

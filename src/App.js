@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import GraphScene from "./components/molecules/GraphScene";
-import Button from "./components/atoms/Button/Button";
 import playIcon from './assets/play-button.png';
 import stopIcon from './assets/stop-button.png';
+import BlocksGraphScene from "./components/molecules/BlocksGraphScene";
+import {ReactFlowProvider} from "react-flow-renderer";
 
 const MainView = styled.div`
   width: 100vw;
@@ -12,14 +13,30 @@ const MainView = styled.div`
   justify-content: center;
 `;
 
-const ButtonWrapper = styled.div`
-  width: 200px;
-  margin: 30px;
-`;
-
 const PlayButton = styled.button`
   border: 0;
   background-color: #FFF;
+`;
+
+const MinersGraphSceneWrapper = styled.div`
+  width: 80%;
+  height: 100%;
+  border-top: 1px solid black;
+`;
+
+const BlocksGraphSceneWrapper = styled.div`
+  width: 20%;
+  height: 100%;
+  border-top: 1px solid black;
+  border-right: 1px solid black;
+`;
+
+const RowWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-self: center;
+  width: 100%;
+  height: 90%;
 `;
 
 const networkValue = 2000;
@@ -70,6 +87,51 @@ const OverviewFlow = () => {
             target: '4',
             label: 'e1-4'
         }
+    ]);
+
+    const [blockElements, setBlockElements] = useState([
+        {
+            id: '1',
+            type: 'input',
+            data: {
+                label: (
+                    <>
+                        CADB57556454E6
+                    </>
+                ),
+            },
+            position: {x: 400, y: 200},
+            style: {
+                background: '#a2a1c4',
+                color: '#333',
+                border: '1px solid #222138',
+                width: 180,
+            }
+        },
+        {
+            id: 'e1-2',
+            source: '1',
+            target: '2',
+            label: 'e1-2'
+        },
+        {
+            id: '2',
+            type: 'input',
+            data: {
+                label: (
+                    <>
+                        CLS3343FVAL
+                    </>
+                ),
+            },
+            position: {x: 400, y: 300},
+            style: {
+                background: '#ffcdcd',
+                color: '#333',
+                border: '1px solid #222138',
+                width: 180,
+            }
+        },
     ]);
 
     function getRandomInt(min, max) {
@@ -149,6 +211,7 @@ const OverviewFlow = () => {
         };
         setElements(oldArr => [...oldArr, edge]);
     }
+
     const updateMiners = () => {
         const lastNode = elements.slice(-2, -1)
         const nodeQuantity = lastNode[0].id
@@ -223,7 +286,14 @@ const OverviewFlow = () => {
                 <img src={isRunning ? stopIcon : playIcon} alt={'icon'}/>
             </PlayButton>
             <input style={{ opacity: 0 }} type={'text'} onKeyDown={e => e.key === 'Enter' ? addMiner() : updateMiners()}/>
-            <GraphScene elements={elements} setElements={setElements}/>
+            <RowWrapper>
+                <BlocksGraphSceneWrapper>
+                    <BlocksGraphScene elements={blockElements} setElements={setBlockElements}/>
+                </BlocksGraphSceneWrapper>
+                <MinersGraphSceneWrapper>
+                    <GraphScene elements={elements} setElements={setElements}/>
+                </MinersGraphSceneWrapper>
+            </RowWrapper>
         </MainView>
     );
 };
